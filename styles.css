@@ -1,0 +1,37 @@
+body {
+  background: linear-gradient(rgba(0, 0, 50, 0.5), rgba(0, 0, 50, 0.5)),
+    url("https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8bGlnaHQlMjB0aGVtZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
+  background-size: cover;
+  background-position: center;
+}
+
+.login-box {
+  max-width: 700px;
+  float: none;
+  margin: 150px auto;
+}
+
+.login-left {
+  background: rgba(211, 211, 211, 0.5);
+  padding: 30px;
+}
+.login-right {
+  background: #fff;
+  padding: 30px;
+}
+
+.form-control {
+  background-color: transparent !important;
+}
+
+a {
+  color: #fff !important;
+  margin-top: -200px !important;
+}
+
+h1 {
+  color: #fff !important;
+  margin-top: 200px !important;
+  text-align: center;
+  text-transform: uppercase;
+}
