@@ -1,25 +1,180 @@
+<html>
 <?php
-
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+require 'vendor/autoload.php';
 session_start();
-header('location:home.php');
-$con = mysqli_connect('localhost', 'root', '');
-
-mysqli_select_db($con, 'user_registration');
-$name = $_POST['user'];
-$pass = $_POST['password'];
-
-$s = "Select * from usertable where name = '$name'";
-
-$result = mysqli_query($con, $s);
-
-$num = mysqli_num_rows($result);
-
-if ($num == 1) {
-    echo "Username Already Taken!!";
-} else {
-    $reg = "insert into usertable(name, password) values ('$name' , '$pass')";
-    mysqli_query($con, $reg);
-    echo "Registration was Done Successfully!";
-    $_SESSION['username'] = $name;
-    header('location:home.php');
+$error = NULL;
+if(isset($_POST['submit-login'])){
+      //getting form data
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    //sql connection string
+    $mysqli = NEW MySQLi('localhost','root','','EduThrift');
+    $username = $mysqli->real_escape_string($username); 
+    $password = $mysqli->real_escape_string($password);
+    $password = md5($password);
+    //Query the database
+    $resultSet = $mysqli->query("SELECT * FROM account WHERE username='$username' AND password='$password' LIMIT 1");
+    if($resultSet->num_rows == 1){
+        //Process login
+        $result = $resultSet->fetch_assoc();
+        if(!$result["verified"]){
+            $error = "This account has not been verified. An email was sent to ". $result["email"] . " on " . date('M d Y',strtotime($result["createdate"]));
+        } else {
+            $_SESSION["username"] = $result["username"];
+            header("Location:home.php");exit;
+        }
+        
+    } else {
+        //credentials invalid
+        $error = "The username or password you entered is invalid!";
+        echo $error;
+    }
 }
+if(isset($_POST['submit-signup'])){
+    //get form data 
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    if(strlen($password) < 6){
+        $error = "<p>Your password must be atleast 6 characters long</p>";
+    }else{
+        //connect to the database
+        $mysqli = NEW MySQLi('localhost','root','','EduThrift');
+
+        //Sanitize data for any sql injection chars
+        $username = $mysqli->real_escape_string($username);
+        $password = $mysqli->real_escape_string($password);
+        $email = $mysqli->real_escape_string($email);
+        $fname = $mysqli->real_escape_string($fname);
+        $lname = $mysqli->real_escape_string($lname);
+
+        //Generate Vkey
+        $vkey = md5(time().$username);
+        $password = md5($password);
+        $insert = $mysqli->query("INSERT INTO ACCOUNT(username,password,email,first_name,last_name,vkey) 
+            VALUES('$username','$password','$email','$fname','$lname','$vkey')");
+        if ($insert){
+            //Create an instance; passing `true` enables exceptions
+            $mail = new PHPMailer(true);
+
+            try {
+                //Server settings
+                //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                $mail->isSMTP();                                            //Send using SMTP
+                $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                $mail->Username   = 'eduthrift@gmail.com';                //SMTP username
+                $mail->Password   = 'EduThrift@728285';                               //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+                $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                //Recipients
+                $mail->setFrom('eduthrift@gmail.com', 'EduThrift');
+                $mail->addAddress($email, 'New User');     //Add a recipient
+                //$mail->addAddress('ellen@example.com');               //Name is optional
+                //$mail->addReplyTo('info@example.com', 'Information');
+                //$mail->addCC('cc@example.com');
+                //$mail->addBCC('bcc@example.com');
+
+                //Attachments
+                //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+
+                //Content
+                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->Subject = 'Verification Key for your EduThrift accout';
+                $mail->Body    = "<a href='http://localhost/library/eduthrift/verify.php?vkey=$vkey&username=$username'>Verify Account</a>";
+                $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+                $mail->send();
+                //echo 'Message has been sent';
+            } catch (Exception $e) {
+                echo "Verification mail could not be sent.";
+            }
+            $error="Verification mail has been sent to your E-mail";
+        }else{
+            $error="This email has already been registered! Log in with your credentials."; 
+        }
+    }
+}
+?>
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login and Registration</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap" rel="stylesheet">
+</head>
+
+<body>
+        <div class="container">
+            <div class="user signinBx">
+                <div class="formBx">
+                    <form action="registration.php" method="POST">
+                        <h3>Log in</h3>
+                        <input type="text" name="username" placeholder="Username" />
+                        <input type="password" name="password" placeholder="Password" />
+                        <input type="submit" name="submit-login" value="Login" />
+                        <?php
+                            if(isset($error)){
+                                echo "<span>$error</span>";
+                            }
+                        ?>  
+                        
+                        <p class="signup">
+                            Don't have an account ?<a href="#" onclick="toggleForm();">
+                                Sign Up
+                            </a>
+                        </p>
+                    </form>
+                </div>
+                <div class="imgBx">
+                    <h3>Share and use educational resources at a minimal cost</h3>
+                    <img src="./images/signup.png" />
+                </div>
+            </div>
+            <div class="user signupBx">
+                <div class="formBx">
+                    <form action="registration.php" method="POST">
+                        <h3>Sign Up</h3>
+                        <input type="text" name="fname" placeholder="First Name" />
+                        <input type="text" name="lname" placeholder="Last Name" />
+                        <input type="email" name="email" placeholder="Email Id" />
+                        <input type="text" name="username" placeholder="Username">
+                        <input type="password" name="password" placeholder=" Password">
+                        <input type="submit" name="submit-signup" value="Sign Up" />
+                        
+                        <?php
+                            if(isset($error)){
+                                echo "<span>$error</span>";
+                            }
+                        ?> 
+                        <p class="signup">
+                            Already have an account ?
+                            <a href="#" onclick="toggleForm();">Log in </a>
+                        </p>
+                    </form>
+                </div>
+                <div class="imgBx">
+                    <br><br><br>
+                    <h3>Share and use educational resources at a minimal cost</h3>
+                    <img src="./images/signup.png" />
+                </div>
+            </div>
+        </div>
+</body>
+<script src="signup.js"></script>
+
+</html>
