@@ -3,7 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 session_start();
 $error = NULL;
 if(isset($_POST['submit-login'])){
@@ -24,7 +24,7 @@ if(isset($_POST['submit-login'])){
             $error = "This account has not been verified. An email was sent to ". $result["email"] . " on " . date('M d Y',strtotime($result["createdate"]));
         } else {
             $_SESSION["username"] = $result["username"];
-            header("Location:home.php");exit;
+            header("Location:../home.php");exit;
         }
         
     } else {
@@ -88,7 +88,7 @@ if(isset($_POST['submit-signup'])){
                 //Content
                 $mail->isHTML(true);                                  //Set email format to HTML
                 $mail->Subject = 'Verification Key for your EduThrift accout';
-                $mail->Body    = "<a href='http://localhost/library/eduthrift/verify.php?vkey=$vkey&username=$username'>Verify Account</a>";
+                $mail->Body    = "<a href='http://localhost/library/eduthrift/authentication/verify.php?vkey=$vkey&username=$username'>Verify Account</a>";
                 $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
                 $mail->send();
@@ -119,62 +119,65 @@ if(isset($_POST['submit-signup'])){
 </head>
 
 <body>
-        <div class="container">
-            <div class="user signinBx">
-                <div class="formBx">
-                    <form action="registration.php" method="POST">
-                        <h3>Log in</h3>
-                        <input type="text" name="username" placeholder="Username" />
-                        <input type="password" name="password" placeholder="Password" />
-                        <input type="submit" name="submit-login" value="Login" />
-                        <?php
-                            if(isset($error)){
-                                echo "<span>$error</span>";
-                            }
-                        ?>  
-                        
-                        <p class="signup">
-                            Don't have an account ?<a href="#" onclick="toggleForm();">
-                                Sign Up
-                            </a>
-                        </p>
-                    </form>
-                </div>
-                <div class="imgBx">
-                    <h3>Share and use educational resources at a minimal cost</h3>
-                    <img src="./images/signup.png" />
-                </div>
+    <div class="container">
+        <div class="user signinBx">
+            <div class="formBx">
+                <form action="registration.php" method="POST">
+                    <h3>Log in</h3>
+                    <input type="text" name="username" placeholder="Username" />
+                    <input type="password" name="password" id="password" placeholder="Password" />
+                    <i class="bi bi-eye-slash" id="togglePassword"></i>
+                    <input class="btn" type="submit" name="submit-login" value="Login" />
+                     <?php
+                    if (isset($error)) {
+                        echo "<span>$error</span>";
+                    }
+                    ?> 
+
+                    <p class="signup">
+                        Don't have an account ?<a href="#" onclick="toggleForm();">
+                            Sign Up
+                        </a>
+                    </p>
+                </form>
             </div>
-            <div class="user signupBx">
-                <div class="formBx">
-                    <form action="registration.php" method="POST">
-                        <h3>Sign Up</h3>
-                        <input type="text" name="fname" placeholder="First Name" />
-                        <input type="text" name="lname" placeholder="Last Name" />
-                        <input type="email" name="email" placeholder="Email Id" />
-                        <input type="text" name="username" placeholder="Username">
-                        <input type="password" name="password" placeholder=" Password">
-                        <input type="submit" name="submit-signup" value="Sign Up" />
-                        
-                        <?php
-                            if(isset($error)){
-                                echo "<span>$error</span>";
-                            }
-                        ?> 
-                        <p class="signup">
-                            Already have an account ?
-                            <a href="#" onclick="toggleForm();">Log in </a>
-                        </p>
-                    </form>
-                </div>
-                <div class="imgBx">
-                    <br><br><br>
-                    <h3>Share and use educational resources at a minimal cost</h3>
-                    <img src="./images/signup.png" />
-                </div>
+            <div class="imgBx">
+                <h3>Share and use educational resources at a minimal cost</h3>
+                <img src="./images/signup.png" />
             </div>
         </div>
+        <div class="user signupBx">
+            <div class="imgBx">
+                <h3>Share and use educational resources at a minimal cost</h3>
+                <img src="./images/signup.png" />
+            </div>
+            <div class="formBx">
+                <form action="registration.php" method="POST">
+                    <h3>Sign Up</h3>
+                    <input type="text" name="fname" placeholder="First Name" />
+                    <input type="text" name="lname" placeholder="Last Name" />
+                    <input type="email" name="email" placeholder="Email Id" />
+                    <input type="text" name="username" placeholder="Username">
+                    <input type="password" name="password" id="password" placeholder="Password" />
+                    <i class="bi bi-eye-slash" id="togglePassword"></i> 
+                   
+                    <input class="btn" type="submit" name="submit-signup" value="Sign Up" />
+
+                    <?php
+                    if (isset($error)) {
+                        echo "<span>$error</span>";
+                    }
+                    ?>
+                    <p class="signup">
+                        Already have an account ?
+                        <a href="#" onclick="toggleForm();">Log in </a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="password.js"></script>
 <script src="signup.js"></script>
 
 </html>
