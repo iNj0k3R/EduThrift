@@ -1,9 +1,16 @@
 <?php
-session_start();
-if (!isset($_SESSION['username'])) {
-    header('location:./Authentication/registration.php');
+  session_start();
+  $error = null;
+  if (!isset($_SESSION['user'])) {
+      header('location:./Authentication/registration.php');  
 }
-
+  $user=$_SESSION['user'];
+  $mysqli = NEW MySQLi('localhost','root','','EduThrift');
+  $imgPrefix = "uploads/";
+  $resultSet = $mysqli->query("SELECT name,price,image,location FROM PRODUCT");
+  if($resultSet->num_rows == 0){
+    $error = "no products found";
+  }
 
 ?>
 
@@ -47,7 +54,20 @@ if (!isset($_SESSION['username'])) {
 <!---PRODUCT DISPLAY-->
   <div class="container">
     <div class="row align-items-start">
-      <div class="col displaycard">
+    <?php
+        foreach($resultSet as $product)
+        {
+          $product_image = explode(",",$product["image"])[0]; //taking first url from comma seperated urls
+          $imgUrl = $imgPrefix.$product_image;
+          $amount = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $product['price']); // to convert price to indian format
+        ?>
+    <div class="col displaycard">
+        <img src="<?php echo $imgUrl ?>" alt="" width="250px" height="220px">
+        <h4><?php echo "\u{20B9} $amount" ?></h4>
+        <p><?php echo $product['name'] ?></p>
+        <p class="loc">Panaji, Goa</p>
+      </div>
+      <!-- <div class="col displaycard">
         <img src="./images/product.png" alt="" width="250px" height="220px">
         <h4>₹ 499.00</h4>
         <p>Lorem ipsum dolor sit amet</p>
@@ -104,8 +124,10 @@ if (!isset($_SESSION['username'])) {
         <h4>₹ 499.00</h4>
         <p>Lorem ipsum dolor sit amet</p>
         <p class="loc">Panaji, Goa</p>
-      </div>
-    
+      </div> -->
+      <?php
+        }
+        ?>
     </div>
 
   </div>

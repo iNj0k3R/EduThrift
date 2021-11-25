@@ -23,7 +23,7 @@ if(isset($_POST['submit-login'])){
         if(!$result["verified"]){
             $error = "This account has not been verified. An email was sent to ". $result["email"] . " on " . date('M d Y',strtotime($result["createdate"]));
         } else {
-            $_SESSION["username"] = $result["username"];
+            $_SESSION["user"] = $result;
             header("Location:../home.php");exit;
         }
         
