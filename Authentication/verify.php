@@ -7,8 +7,8 @@ if(isset($_GET['vkey']) && isset($_GET['username'])){
     if($resultSet->num_rows == 1){
         if ($mysqli->query("UPDATE ACCOUNT SET verified = true WHERE username = '$username'")){
             echo "your account has been verified. You may now login\n Redirecting to Login Page in 5 seconds...";
-            header("refresh:5;url=registration.php");
-        } else {
+            header("refresh:5;url=../home.php");
+        } else {    
             echo "verification failed!";
         }
     } else {

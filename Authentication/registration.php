@@ -1,8 +1,7 @@
 <html>
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
+require '../helpers/php_mail.php';
+require_once '../helpers/connect_db.php';
 require '../vendor/autoload.php';
 session_start();
 $error = NULL;
@@ -11,7 +10,7 @@ if(isset($_POST['submit-login'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
     //sql connection string
-    $mysqli = NEW MySQLi('localhost','root','','EduThrift');
+    $mysqli = connectDB();
     $username = $mysqli->real_escape_string($username); 
     $password = $mysqli->real_escape_string($password);
     $password = md5($password);
@@ -44,7 +43,7 @@ if(isset($_POST['submit-signup'])){
         $error = "<p>Your password must be atleast 6 characters long</p>";
     }else{
         //connect to the database
-        $mysqli = NEW MySQLi('localhost','root','','EduThrift');
+        $mysqli = connectDB();
 
         //Sanitize data for any sql injection chars
         $username = $mysqli->real_escape_string($username);
@@ -59,43 +58,9 @@ if(isset($_POST['submit-signup'])){
         $insert = $mysqli->query("INSERT INTO ACCOUNT(username,password,email,first_name,last_name,vkey) 
             VALUES('$username','$password','$email','$fname','$lname','$vkey')");
         if ($insert){
-            //Create an instance; passing `true` enables exceptions
-            $mail = new PHPMailer(true);
-
-            try {
-                //Server settings
-                //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-                $mail->isSMTP();                                            //Send using SMTP
-                $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = 'eduthrift@gmail.com';                //SMTP username
-                $mail->Password   = 'EduThrift@728285';                               //SMTP password
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-                $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-                //Recipients
-                $mail->setFrom('eduthrift@gmail.com', 'EduThrift');
-                $mail->addAddress($email, 'New User');     //Add a recipient
-                //$mail->addAddress('ellen@example.com');               //Name is optional
-                //$mail->addReplyTo('info@example.com', 'Information');
-                //$mail->addCC('cc@example.com');
-                //$mail->addBCC('bcc@example.com');
-
-                //Attachments
-                //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-                //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-
-                //Content
-                $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = 'Verification Key for your EduThrift accout';
-                $mail->Body    = "<a href='http://localhost/library/eduthrift/authentication/verify.php?vkey=$vkey&username=$username'>Verify Account</a>";
-                $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-                $mail->send();
-                //echo 'Message has been sent';
-            } catch (Exception $e) {
-                echo "Verification mail could not be sent.";
-            }
+            $subject="Verification Key for your EduThrift accout";
+            $body="<a href='http://localhost/library/eduthrift/authentication/verify.php?vkey=$vkey&username=$username'>Verify Account</a>";
+            php_mail($email,$subject,$body);
             $error="Verification mail has been sent to your E-mail";
         }else{
             $error="This email has already been registered! Log in with your credentials."; 
@@ -154,11 +119,11 @@ if(isset($_POST['submit-signup'])){
             <div class="formBx">
                 <form action="registration.php" method="POST">
                     <h3>Sign Up</h3>
-                    <input type="text" name="fname" placeholder="First Name" />
-                    <input type="text" name="lname" placeholder="Last Name" />
-                    <input type="email" name="email" placeholder="Email Id" />
-                    <input type="text" name="username" placeholder="Username">
-                    <input type="password" name="password" id="password" placeholder="Password" />
+                    <input type="text" name="fname" placeholder="First Name" required/>
+                    <input type="text" name="lname" placeholder="Last Name" required/>
+                    <input type="email" name="email" placeholder="Email Id" required/>
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" id="password" placeholder="Password" required/>
                     <i class="bi bi-eye-slash" id="togglePassword"></i> 
                    
                     <input class="btn" type="submit" name="submit-signup" value="Sign Up" />

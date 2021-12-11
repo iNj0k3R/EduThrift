@@ -1,11 +1,13 @@
 <?php
+  require_once './helpers/connect_db.php';
   session_start();
+  
   $error = null;
   if (!isset($_SESSION['user'])) {
       header('location:./Authentication/registration.php');  
 }
   $user=$_SESSION['user'];
-  $mysqli = NEW MySQLi('localhost','root','','EduThrift');
+  $mysqli = connectDB();
   $imgPrefix = "uploads/";
   $resultSet = $mysqli->query("SELECT name,price,image,location FROM PRODUCT");
   if($resultSet->num_rows == 0){
