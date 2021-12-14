@@ -1,0 +1,493 @@
+/*  import google fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Ubuntu:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;500&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none !important;
+  color: #000000 !important;
+}
+.navbar {
+  padding-bottom: 0.2rem !important;
+}
+.navbar-toggler {
+  background-color: #000000 !important;
+  padding: 0.25rem 0.45rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.navbar-dark .navbar-toggler {
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+.nav-link a:hover {
+  color: rgb(0, 0, 0);
+}
+.nav-item {
+  margin-bottom: 10px;
+}
+.Sell {
+  width: 125px;
+  height: 45px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  background: #000000;
+  border: 1px solid #000000;
+  font-family: Raleway;;
+}
+.Sell p {
+  color: #ffffff;
+  text-decoration: none !important;
+  margin-top: 4px;
+  font-family: Raleway;
+  font-style: normal;
+}
+.Sell:hover {
+  box-shadow: 0 0.5em 0.5em -0.4em rgb(68, 65, 65);
+  transform: translateY(-0.25em);
+}
+.upload {
+  width: 120px;
+  height: 45px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  background: rgb(255, 255, 255);
+  border: 1px solid #000000;
+}
+.upload p {
+  color: #000000 !important;
+  text-decoration: none !important;
+  margin-top: 4px;
+  font-size: 14px;
+  font-family: Raleway;
+  font-style: normal;
+}
+.upload:hover {
+  box-shadow: 0 0.5em 0.5em -0.4em rgb(68, 65, 65);
+  transform: translateY(-0.25em);
+}
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+  color: #0000;
+  margin-bottom: 10px;
+}
+
+.hover-underline-animation:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000000;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+a:hover {
+  text-shadow: -0.25px -0.25px 0 black, 0.25px 0.25px black;
+}
+
+@media only screen and(max-width:800px) {
+  .hover-underline-animation:after {
+    background-color: #fff;
+    width: 50%;
+  }
+  nav .nav-items {
+    flex-direction: column;
+  }
+  nav {
+    padding: 0;
+    flex-direction: column !important;
+    display: block !important;
+  }
+  nav .flex-row .collapse {
+    padding-left: 0;
+  }
+
+  nav .toggle-collapse {
+    display: initial;
+  }
+}
+
+@media (max-width: 690px) {
+  .max-width {
+    padding: 0 23px;
+  }
+
+  nav .nav-items {
+    flex-direction: column;
+  }
+  nav {
+    padding: 0;
+    flex-direction: column !important;
+    display: block !important;
+  }
+  nav .flex-row .collapse {
+    padding-left: 0;
+  }
+
+  nav .toggle-collapse {
+    display: initial;
+  }
+}
+
+@media (max-width: 500px) {
+  .hover-underline-animation:after {
+    background-color: #000000;
+    width: 40%;
+  }
+  .title {
+    text-align: center;
+    padding: 0 4px;
+  }
+
+  nav .nav-items {
+    flex-direction: column;
+  }
+
+  nav {
+    padding: 0;
+    flex-direction: column !important;
+    display: block !important;
+  }
+  nav .flex-row .collapse {
+    padding-left: 0;
+  }
+  nav .toggle-collapse {
+    display: initial;
+  }
+}
+
+/* Form CSS */
+.uploaddiv {
+  width: 800px;
+  margin-top: 164px;
+  margin-bottom: 71px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 50px;
+  margin-left: 350px;
+  font-family: "Raleway", sans-serif;
+}
+
+.formContent {
+  margin-left: 40px;
+}
+
+.uploadDocument {
+  height: 1500px;
+}
+.uploadProduct {
+  height: 1150px;
+}
+
+.title1 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+  color: #000000;
+}
+.title2 {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.subtitle {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.choosefilebutton {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 11px 43px;
+
+  width: 209px;
+  height: 43px;
+
+  background: #ffffff;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+}
+
+.uploadDocButton {
+  width: 241px;
+}
+
+.uploadProductButton {
+  width: 220px;
+}
+
+.option {
+  line-height: 30px;
+}
+
+.option1 {
+  line-height: 60px;
+  font-weight: 600;
+}
+
+.textbox {
+  width: 405px;
+  height: 35px;
+  border: #000000 2px solid;
+}
+
+textarea{
+  resize: none !important;
+  border: #000000 2px solid;
+}
+
+.file-upload {
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+}
+/* 
+.file-upload__input {
+  display: none;
+} */
+
+input[type=file]::file-selector-button {
+  -webkit-appearance: none;
+  background: #ffffff;
+  border: 2px solid #000000;
+  outline: none;
+  margin-right: 15px;
+  color: #000000;
+  font-size: 16px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  width: 186px;
+  height: 45px;
+  margin-bottom: 10px;
+}
+
+/* .file-upload__button {
+  -webkit-appearance: none;
+  background: #ffffff;
+  border: 2px solid #000000;
+  outline: none;
+  margin-right: 15px;
+  color: #000000;
+  font-size: 16px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  width: 186px;
+  height: 45px;
+  margin-bottom: 10px;
+} */
+
+input[type=file]::file-selector-button:active{
+  background: #000000;
+  color: #ffffff;
+}
+
+/* .file-upload__button:active {
+  background: #000000;
+  color: #ffffff;
+} */
+
+.file-upload__label {
+  max-width: 250px;
+  font-size: 0.95em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: "Quicksand", sans-serif;
+}
+
+@media screen and (max-width: 500px) {
+  .uploaddiv {
+    width: 500px;
+    box-shadow: none;
+    padding: 20px;
+    margin-left: 0px;
+  }
+}
+
+/* footer */
+#footer {
+  background-color: #000000;
+  padding: 3rem 2rem;
+  position: absolute;
+  width: 100%;
+  height: 40%;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.2fr;
+  grid-gap: 2rem;
+  justify-content: center;
+}
+#footer-logo {
+  text-align: left !important;
+  padding: 3rem 2rem !important;
+}
+#footer .footer-details .detail h1,
+.important-links a {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 0.2rem;
+  padding-right: 1rem !important;
+  /* identical to box height */
+  color: #fff;
+}
+.important-links {
+  padding-top: 2rem !important;
+}
+.detail p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 60%;
+
+  /* identical to box height, or 20px */
+
+  color: #ffffff;
+}
+.imp-links {
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr;
+  grid-gap: 1rem;
+}
+.social_footer_ul {
+  margin-top: 0.5rem;
+  padding: 0;
+}
+.footer-details {
+  display: grid;
+  justify-content: center;
+}
+.logo-text,
+#footer-address {
+  position: absolute;
+  width: 32%;
+  height: 16px;
+  margin-top: 10px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
+}
+
+#footer .footer-details .detail h2,
+.important-links a {
+  margin-bottom: 0.8rem;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height */
+  color: #ffffff;
+}
+.important-links .imp-links dd {
+  margin-top: 0.5rem;
+}
+#footer-logo {
+  text-align: center;
+}
+
+#copyright-text {
+  font-family: "Poppins";
+  height: 15px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(41, 41, 41);
+  color: white;
+  padding: 1.6rem;
+  margin-bottom: 0px;
+}
+@media screen and (max-width: 800px) {
+  #footer {
+    padding: 2rem 1rem;
+    height: 60%;
+  }
+  #footer-logo {
+    grid-column: 1/5;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  #footer-logo .brand img {
+    width: 18%;
+  }
+  .footer-details {
+    grid-column: 2/3;
+  }
+}
+@media screen and (max-width: 500px) {
+  #footer {
+    padding: 2rem 1rem;
+    height: 60%;
+    width: 500px;
+  }
+  .footer-grid {
+    display: block;
+    text-align: center;
+  }
+  #footer-logo {
+    text-align: center !important;
+    padding: 3rem 2rem !important;
+  }
+
+  #footer-logo .brand img {
+    width: 50% !important;
+  }
+  .footer-details {
+    margin-top: 1rem;
+  }
+  #footer .detail {
+    margin-top: 1rem;
+  }
+  .important-links {
+    margin-top: 2rem;
+  }
+  #footer .footer-details .detail h2,
+  .important-links a {
+    font-size: 14px;
+  }
+  #footer-logo .brand img {
+    width: 23%;
+  }
+
+  #footer-address {
+    font-size: 14px;
+    width: 50%;
+    text-align: center !important;
+    margin: 10px 75px;
+  }
+
+  #copyright-text {
+    font-size: 14px;
+  }
+}
+
+/* footer */

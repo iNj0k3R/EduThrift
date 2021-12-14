@@ -2,7 +2,7 @@
 <?php
 require '../helpers/php_mail.php';
 require_once '../helpers/connect_db.php';
-require '../vendor/autoload.php';
+// require '../vendor/autoload.php';
 session_start();
 $error = NULL;
 if(isset($_POST['submit-login'])){
@@ -142,7 +142,11 @@ if(isset($_POST['submit-signup'])){
         </div>
     </div>
 </body>
-<script src="password.js"></script>
-<script src="signup.js"></script>
+<script>
+    function toggleForm() {
+    var container = document.querySelector(".container");
+    container.classList.toggle("active");
+  }
+</script>
 
 </html>
