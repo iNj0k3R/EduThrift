@@ -5,7 +5,7 @@
             fixed-top
           " style="background: #fff; border: 1px solid #C4C4C4;">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#" style="margin-left: 3%;margin-bottom: 30px;"><img src="./images/eduthrift.png"
+        <a class="navbar-brand" href="./home.php" style="margin-left: 3%;margin-bottom: 30px;"><img src="./images/eduthrift.png"
             alt="" /></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,31 +16,31 @@
                 font-style: normal;
                 ">
             <li class="nav-item px-4">
-              <a class="nav-link active hover-underline-animation" aria-current="page" href="#">Home</a>
+              <a class="nav-link active hover-underline-animation" aria-current="page" href="./home.php">Home</a>
             </li>
             <li class="nav-item px-4">
-              <a class="nav-link hover-underline-animation" href="#">Notes & PDFs</a>
+              <a class="nav-link hover-underline-animation" href="./notes.php">Notes & PDFs</a>
             </li>
             <li class="nav-item px-4">
-              <a class="nav-link hover-underline-animation" href="#">Search</a>
+              <a class="nav-link hover-underline-animation" href="./profile.php">Profile</a>
             </li>
             <li class="nav-item px-4">
-              <a class="nav-link hover-underline-animation " href="#">Profile</a>
+              <a class="nav-link hover-underline-animation " href="./myads.php">My Ads</a>
             </li>
 
             <li class="nav-item px-4">
-              <a class="nav-link hover-underline-animation" href="#">Login</a>
+              <a class="nav-link hover-underline-animation" href="./chat.php">Chat</a>
             </li>
 
             <li class="nav-item px-4">
               <button class="upload">
-                <p class="nav-link" href="#">Upload Notes</p>
+              <a href="./uploaddocument.php"><p class="nav-link"> Upload Notes</p></a>
               </button>
             </li>
 
             <li class="nav-item px-4">
               <button class="Sell">
-                <p class="nav-link" href="#">Sell/Rent</p>
+              <a href="./uploadproduct.php"><p class="nav-link" >Sell/Rent</p></a>
               </button>
             </li>
           </ul>

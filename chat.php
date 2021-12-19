@@ -83,17 +83,19 @@
                     <div class="chat-header">
                         <div class="row">
                             <?php
-                                $contact_uname = mysqli_real_escape_string($mysqli,$_GET['contact_uname']) ;
-                                $result = $mysqli->query("SELECT first_name,last_name FROM account WHERE username='$contact_uname' LIMIT 1");
-                                if($result->num_rows > 0){
-                                    $contactName = $result->fetch_assoc();
-                                }  
+                                if(isset($_GET['contact_uname'])){
+                                    $contact_uname = mysqli_real_escape_string($mysqli,$_GET['contact_uname']) ;
+                                    $result = $mysqli->query("SELECT first_name,last_name FROM account WHERE username='$contact_uname' LIMIT 1");
+                                    if($result->num_rows > 0){
+                                        $contactName = $result->fetch_assoc();
+                                    } 
+                                 
                             ?>
                             <div class="col-lg-8">
                                 <img src="./images/product.png" alt="" width="40px" height="40px">
                                 <div class="chat-about">
                                    
-                                    <h5> <?php {echo $contactName['first_name'] . " " . $contactName['last_name'];} ?>
+                                    <h5> <?php {echo $contactName['first_name'] . " " . $contactName['last_name'];} ?> </h5>
                                 </div>
                             </div>   
                         </div>
@@ -110,6 +112,7 @@
                             <input type="submit" class="send-message-button" value="Send">
                         </form>
                     </div>
+                    <?php } ?>
                 </div>
                 </div>
             </div>

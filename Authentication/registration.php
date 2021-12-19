@@ -2,7 +2,7 @@
 <?php
 require '../helpers/php_mail.php';
 require_once '../helpers/connect_db.php';
-// require '../vendor/autoload.php';
+require '../vendor/autoload.php';
 session_start();
 $error = NULL;
 if(isset($_POST['submit-login'])){

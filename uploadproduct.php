@@ -21,10 +21,10 @@
         $productName = $_POST['productname'];
         $productPrice = $_POST['productprice'];
         $productDesc = $_POST['productdescription'];
-        $fileName = basename($_FILES["myFile"]["name"]);
+        //$fileName = basename($_FILES["myFile"]["name"]);
 
-        $targetDir = "uploads/";      
-        $targetFilePath = $targetDir . $fileName;
+        $targetDir = "uploads/product-images";      
+        $targetFilePath = $targetDir;
 
     
         if($mysqli->connect_error) {
@@ -34,24 +34,50 @@
         else {
             echo "Connected";
             // echo "Product upload successful";
-            if(!empty($_FILES["myFile"]["name"])){
-                // Upload file to server
-                move_uploaded_file($_FILES["myFile"]["tmp_name"], $targetFilePath);
-                // Insert image file name into database
-                $insert = $mysqli->query("INSERT INTO PRODUCT(name, price, description, sell_or_rent, product_type, location, city, state, pincode, seller_id) 
-                                            VALUES('$productName', '$productPrice', '$productDesc', '$saleType', '$productType', POINT(40.71727401,-74.00898606),'city','state',403401,{$user['id']})");
-                if($insert){
-                    $statusMsg = "The file ".$fileName. " has been uploaded successfully.";
-                }else{
-                    $statusMsg = "File upload failed, please try again.";
-                } 
+            // if(!empty($_FILES["myFile"]["name"])){
+            //     // Upload file to server
+            //     move_uploaded_file($_FILES["myFile"]["tmp_name"], $targetFilePath);
+            //     // Insert image file name into database
+            //     $insert = $mysqli->query("INSERT INTO PRODUCT(name, price,image, description, sell_or_rent, product_type, seller_id) 
+            //                                 VALUES('$productName', '$productPrice','{$_FILES['myFile']['name']}', '$productDesc', '$saleType', '$productType',{$user['id']})");
+            //     if($insert){
+            //         $statusMsg = "The file ".$fileName. " has been uploaded successfully.";
+            //     }else{
+            //         $statusMsg = "File upload failed, please try again.";
+            //     } 
 
-            } else{
-                    $statusMsg = 'Please select a file to upload.';
-                 }
-
+            // } else{
+            //         $statusMsg = 'Please select a file to upload.';
+            //      }
            // echo "Product upload successful";
-
+          //$error=array();
+            $document_names = '';
+            $extension=array("jpeg","jpg","png");
+            foreach($_FILES["myFile"]["tmp_name"] as $key=>$tmp_name) {
+                $file_name=$_FILES["myFile"]["name"][$key];
+                
+                $file_tmp=$_FILES["myFile"]["tmp_name"][$key];
+                $ext=pathinfo($file_name,PATHINFO_EXTENSION);
+                
+                if(in_array($ext,$extension)) {
+                    if(!file_exists($targetDir."/".$file_name)) {
+                        move_uploaded_file($file_tmp=$_FILES["myFile"]["tmp_name"][$key],$targetDir."/".$file_name);
+                        $document_names = $document_names . $file_name . ',';
+                    }
+                    else {
+                        $filename=basename($file_name,$ext);
+                        $newFileName=$filename.time().".".$ext;
+                        move_uploaded_file($file_tmp=$_FILES["myFile"]["tmp_name"][$key],$targetDir."/".$newFileName);
+                        $document_names = $document_names . $newFileName . ',';
+                    }
+                }else {
+                    //array_push($error,"$file_name, ");
+                    echo 'error';
+                }
+            }
+            $document_names = substr_replace($document_names ,"",-1); //removing extra , at the end
+            $insert = $mysqli->query("INSERT INTO PRODUCT(name, price,image, description, sell_or_rent, product_type, seller_id) 
+                                                   VALUES('$productName','$productPrice','$document_names', '$productDesc', '$saleType', '$productType',{$user['id']})");
             $mysqli->close();
         }
     }
@@ -125,7 +151,7 @@
                 <br><br>
 
                 <div class="file-upload">
-                    <input class="file-upload__input file-upload__button" type="file" name="myFile" id="myFile" accept="image/png, image/jpeg" multiple>
+                    <input class="file-upload__input file-upload__button" type="file" name="myFile[]" id="myFile" accept="image/png, image/jpeg, image/jpg" multiple>
                     <!-- <button class="file-upload__button" type="button">Choose Image(s)</button> -->
                     <span class="file-upload__label"></span>
                 </div>

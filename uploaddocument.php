@@ -22,7 +22,7 @@
             $docTitle = $_POST['doctitle'];
             $fileName = basename($_FILES["myFile"]["name"]);
 
-            $targetDir = "uploads/";      
+            $targetDir = "uploads/documents/";      
             $targetFilePath = $targetDir . $fileName;
             //$fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
         
@@ -37,7 +37,7 @@
                             // Upload file to server
                             move_uploaded_file($_FILES["myFile"]["tmp_name"], $targetFilePath);
                             // Insert image file name into database
-                            $insert = $mysqli->query("INSERT INTO DOCUMENTS(title, class, board_of_education, course, institute, document, category, user_id) 
+                            $insert = $mysqli->query("INSERT INTO DOCUMENT(title, class, board_of_education, course, institute, document, category, uploader_id) 
                                                 VALUES('$docTitle', '$grade', '$boardOfEducation', '$courseName', '$instituteName', '$fileName' ,'$docType',{$user['id']})");
                             if($insert){
                                 $statusMsg = "The file ".$fileName. " has been uploaded successfully.";
@@ -89,21 +89,21 @@
 
             <div class="formContent">
                 <p class="subtitle">Select the categories your document falls under:</p>
-                <input type="checkbox" name="doctype" value="textbooks">
+                <input type="radio" name="doctype" value="textbooks">
                 <span class="option">Textbooks</span><br>
-                <input type="checkbox" name="doctype" value="classnotes">
+                <input type="radio" name="doctype" value="classnotes">
                 <span class="option">Class notes</span><br>
-                <input type="checkbox" name="doctype" value="exampapers">
+                <input type="radio" name="doctype" value="exampapers">
                 <span class="option">Exam papers</span><br>
-                <input type="checkbox" name="doctype" value="answers">
+                <input type="radio" name="doctype" value="answers">
                 <span class="option">Answers</span><br>
-                <input type="checkbox" name="doctype" value="presentation">
+                <input type="radio" name="doctype" value="presentation">
                 <span class="option">Presentation</span><br>
-                <input type="checkbox" name="doctype" value="researchpapers">
+                <input type="radio" name="doctype" value="researchpapers">
                 <span class="option">Research paper</span><br>
-                <input type="checkbox" name="doctype" value="summary">
+                <input type="radio" name="doctype" value="summary">
                 <span class="option">Summary</span><br>
-                <input type="checkbox" name="doctype" value="others">
+                <input type="radio" name="doctype" value="others">
                 <span class="option">Others</span><br>
 
 
