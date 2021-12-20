@@ -22,7 +22,7 @@
         $productPrice = $_POST['productprice'];
         $productDesc = $_POST['productdescription'];
         //$fileName = basename($_FILES["myFile"]["name"]);
-
+        echo $saleType;
         $targetDir = "uploads/product-images";      
         $targetFilePath = $targetDir;
 
@@ -136,9 +136,9 @@
                 <br><br><br>
 
                 <p class="subtitle">Select the category of sale of your product:</p>
-                <input type="checkbox" name="saletype">
+                <input type="checkbox" name="saletype" value="sell">
                 <span class="option" value="sell">Sell</span><br>
-                <input type="checkbox" name="saletype">
+                <input type="checkbox" name="saletype" value="rent">
                 <span class="option" value="rent">Rent</span>
 
                 <br><br>

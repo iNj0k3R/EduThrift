@@ -12,23 +12,30 @@ $documentPrefix = "uploads/documents/";
 
 $resultSet = $mysqli->query("SELECT notes_id,title,uploader_id,date_of_uploading,category,document,first_name,last_name FROM document INNER JOIN account ON document.uploader_id=account.id");
 
-if (isset($_POST['search_for_request'])) {
-    $request = $_POST['search_for_request'];
+if (isset($_GET['search_for_request'])) {
+    $request = $_GET['search_for_request'];
     //header('location:myads.php');
     //echo $request;
-    $resultSet = $mysqli->query("SELECT notes_id,title,uploader_id,date_of_uploading,category,first_name,last_name FROM document INNER JOIN account ON document.uploader_id=account.id WHERE notes_id=2");
+    $resultSet = $mysqli->query("SELECT notes_id,title,uploader_id,date_of_uploading,category,document,first_name,last_name FROM document INNER JOIN account ON document.uploader_id=account.id WHERE category='{$request}'");
     if ($resultSet->num_rows == 0) {
       $error = "no products found";
     }
-    //echo "";
+  }
+  if (isset($_GET['search_for_class'])) {
+    $request = $_GET['search_for_class'];
+    //header('location:myads.php');
+    //echo $request;
+    $resultSet = $mysqli->query("SELECT notes_id,title,uploader_id,date_of_uploading,category,document,first_name,last_name FROM document INNER JOIN account ON document.uploader_id=account.id WHERE class='{$request}'");
+    if ($resultSet->num_rows == 0) {
+      $error = "no products found";
+    }
   }
 
 if(isset($_POST['download-submit'])){
     $url = $documentPrefix.$_POST['download-file'];
     //file_put_contents($_POST['documentName'], file_get_contents($url));
     
-    $file_name = basename($url);
-      
+    $file_name = "C:/Users/varad/Desktop/".basename($url);    
     // Use file_get_contents() function to get the file
     // from url and use file_put_contents() function to
     // save the file by using base name
@@ -75,40 +82,40 @@ if(isset($_POST['download-submit'])){
                             </div>
                             <ul class="searching_student_list1">
                                 <label for="" class="container_check">
-                                    <input type="checkbox" class="search_data" name="search_for" value="textbooks">
+                                    <input type="radio" class="search_data" name="search_for" value="textbooks">
                                     Textbooks
                                 </label><br>
                                 <label for="" class="container_check">
-                                    <input type="checkbox" class="search_data" name="search_for" value="classnotes">
+                                    <input type="radio" class="search_data" name="search_for" value="classnotes">
                                     Class notes
                                 </label><br>
                                 <label for="" class="container_check">
-                                    <input type="checkbox" class="search_data" name="search_for" value="exampapers">
+                                    <input type="radio" class="search_data" name="search_for" value="exampapers">
                                     Exam papers
                                 </label><br>
                                 <label for="" class="container_check">
-                                    <input type="checkbox" class="search_data" name="search_for" value="answers">
+                                    <input type="radio" class="search_data" name="search_for" value="answers">
                                     Answers
                                 </label><br>
                                 <label for="" class="container_check">
-                                    <input type="checkbox" class="search_data" name="search_for" value="presentations">
+                                    <input type="radio" class="search_data" name="search_for" value="presentations">
                                     Presentations
                                 </label><br>
                                 <label for="" class="container_check">
-                                    <input type="checkbox" class="search_data" name="search_for" value="researchpapers">
+                                    <input type="radio" class="search_data" name="search_for" value="researchpapers">
                                     Research papers
                                 </label><br>
                                 <label for="" class="container_check">
-                                    <input type="checkbox" class="search_data" name="search_for" value="summary">
+                                    <input type="radio" class="search_data" name="search_for" value="summary">
                                     Summary
                                 </label><br>
                                 <label for="" class="container_check">
-                                    <input type="checkbox" class="search_data" name="search_for" value="others">
+                                    <input type="radio" class="search_data" name="search_for" value="others">
                                     Others
                                 </label><br>
                             </ul>
                         </div>
-                        <div class="user_profile_section">
+                        <!-- <div class="user_profile_section">
                             <div class="search_user_div">
                                 <h4 class="search_profile_handling">
                                     Filter by Institute
@@ -130,11 +137,11 @@ if(isset($_POST['download-submit'])){
                                             <option value="9">IIT Goa</option>
                                             <option value="10">Mumbai University</option>
 
-                                            <!-- show all nodes -->
+                                            <!-- show all nodes 
                                         </select><br>
                                     </div>
                                     <div class="form-group">
-                                        <select name="board_of_education_id" id="board_of_education_id" class="form-control search_data">
+                                        <select name="board_of_education" id="board_of_education_id" class="form-control search_data">
                                             <option selected="selected" value>Board of Education</option>
                                             <option value="1">ICSE</option>
                                             <option value="2">CBSE</option>
@@ -144,7 +151,7 @@ if(isset($_POST['download-submit'])){
                                             <option value="6">UGC</option>
                                         </select><br>
 
-                                        <!-- show all nodes -->
+                                        <!-- show all nodes 
                                     </div>
                                     <div class="form-group">
                                         <select name="course_id" id="course_id" class="form-control">
@@ -160,12 +167,12 @@ if(isset($_POST['download-submit'])){
                                             <option value="9">Computer Science</option>
                                             <option value="10">History & Civics</option>
 
-                                            <!-- show all nodes -->
+                                            <!-- show all nodes 
                                         </select><br>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="user_profile_section">
                             <div class="search_user_div">
                                 <h4 class="search_profile_handling">
@@ -174,55 +181,55 @@ if(isset($_POST['download-submit'])){
                             </div>
                             <ul class="searching_student_list1">
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class1">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class1">
                                     Class 1
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class2">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class2">
                                     Class 2
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class3">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class3">
                                     Class 3
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class4">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class4">
                                     Class 4
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class5">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class5">
                                     Class 5
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class6">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class6">
                                     Class 6
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class7">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class7">
                                     Class 7
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class8">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class8">
                                     Class 8
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class9">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class9">
                                     Class 9
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class10">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class10">
                                     Class 10
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class11">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class11">
                                     Class 11 (Highschool)
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="class12">
+                                    <input type="radio" class="search_data" name="search_for_class" value="class12">
                                     Class 12 (Highschool)
                                 </label><br>
                                 <label for="" class="container_radio">
-                                    <input type="radio" class="search_data" name="search_for[]" value="college">
+                                    <input type="radio" class="search_data" name="search_for_class" value="college">
                                     College
                                 </label><br>
 
@@ -293,45 +300,48 @@ if(isset($_POST['download-submit'])){
 
     <!-- FOOTER -->
     <?php include_once 'shared/footer.php' ?>
-
-
-
-
-
     <script>
         $(document).ready(function() {       
            // $("#document-container").load(location.href + " #document-container")       //on changing the value of select tag it will display an 
             $('input[name=search_for]').change(function() {
-                var yourArray = [];
-                $("input:checkbox[name=search_for]:checked").each(function(){
-                    yourArray.push($(this).val());
-                });
-                console.log(yourArray);
+                var search=$(this).val();
                 $.ajax({
                 url:"notes.php",
-                type:"POST",
+                type:"GET",
                 data:
-                    "search_for_request="+'textbooks'
+                    "search_for_request="+search
                 ,       
                 beforeSend:function(){
                    // $(".product-container").html("<span>Working.....</span>");
                 },
-                success:function(result){
-                    //console.log(result);
-                    $("#document-container").load(window.location.href + " #document-container");
-                    //$("body").html(result);
-                }
-        });
+                success:function(data){
+                   // console.log(result);     
+                    var result = $('<div />').append(data).find('#document-container').html();     
+                    //$("#document-container").load(window.location.href + " #document-container");
+                    $("#document-container").html(result);
+                     }
+                });
             });
-            // $('#download-submit').click(function(){
-            //     var value = $('#download-file').val();
-            //     console.log(value);
-            //     $.ajax({
-            //         url:"notes.php",
-            //         type:"POST",
-            //         data:'documentName='+value
-            //     });
-            // });
+            $('input[name=search_for_class]').change(function() {
+                var search=$(this).val();
+                $.ajax({
+                url:"notes.php",
+                type:"GET",
+                data:
+                    "search_for_class="+search
+                ,       
+                beforeSend:function(){
+                   // $(".product-container").html("<span>Working.....</span>");
+                },
+                success:function(data){
+                   // console.log(result);     
+                    var result = $('<div />').append(data).find('#document-container').html();     
+                    //$("#document-container").load(window.location.href + " #document-container");
+                    $("#document-container").html(result);
+                     }
+                });
+            });
+
         });
 
     </script>

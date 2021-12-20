@@ -1,6 +1,4 @@
 <html lang="en">
-
-</html>
 <?php
 require_once './helpers/connect_db.php';
 session_start();
@@ -12,6 +10,11 @@ if (!isset($_SESSION['user'])) {
 
 $user = $_SESSION['user'];
 $mysqli = connectDB();
+
+
+if(isset($_POST['delete-ad'])){
+    $mysqli->query("DELETE FROM product WHERE product_id={$_POST['delete-ad']}");
+}
 
 ?>
 
@@ -49,17 +52,20 @@ $mysqli = connectDB();
                     <th>Sale/Rent</th>
                     <th>Description</th>
                     <th>Product Image</th>
+                    <th>Status</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
             <?php
 
             $retrieve_data = $mysqli->query("SELECT * FROM product WHERE product.seller_id={$user['id']}");
+            $count = 1;
                while($account = $retrieve_data->fetch_assoc()){
                ?>
 
                 <tr>
-                    <td><b><?php echo $account['product_id']; ?></b></td>
+                    <td><b><?php echo $count++; ?></b></td>
                     <td><b><?php echo $account['name']; ?></b></td>
                     <td>
                       <b>
@@ -92,7 +98,25 @@ $mysqli = connectDB();
                        <img src="uploads/product-images/<?php echo explode(",", $account["image"])[0]; ?>" class="img-responsive img-thumbnail" width="150">
                       
                     </td>
-                   
+
+                    <td>
+                        <?php
+                            if($account['approval'] == 0)
+                            {
+                                echo "Approval Pending";
+                            }
+                            else
+                            {
+                                echo "Approved";
+                            }
+                         ?>
+                    </td>
+                   <td>
+                    <form action="myads.php" method="POST">
+                        <button class="deny" type="submit" name="delete-ad" value="<?php echo $account['product_id'];?>">Delete</button>
+                    </form>
+                        
+                   </td>
                 </tr>
                 <?php
                }

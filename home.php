@@ -177,9 +177,11 @@ if (isset($_POST['radius-request'])) {
             beforeSend:function(){
                 $(".product-container").html("<span>Working.....</span>");
             },
-            success:function(result){
-                console.log(result);
-                $("body").html(result);
+            success:function(data){
+                //console.log(result);
+                //$("body").html(result);
+                var result = $('<div />').append(data).find('.product-container').html();     
+                $(".product-container").html(result);
             }
         });
 
@@ -197,9 +199,9 @@ if (isset($_POST['radius-request'])) {
             beforeSend:function(){
                 $(".product-container").html("<span>Working.....</span>");
             },
-            success:function(result){
-                console.log(result);
-                $("body").html(result);
+            success:function(data){
+                var result = $('<div />').append(data).find('.product-container').html();     
+                $(".product-container").html(result);
             }
         });
 
@@ -217,9 +219,9 @@ if (isset($_POST['radius-request'])) {
             beforeSend:function(){
                 $(".product-container").html("<span>Working.....</span>");
             },
-            success:function(result){
-                console.log(result);
-                $("body").html(result);
+            success:function(data){
+                var result = $('<div />').append(data).find('.product-container').html();     
+                $(".product-container").html(result);
             }
         });
 
@@ -237,9 +239,9 @@ if (isset($_POST['radius-request'])) {
             beforeSend:function(){
                 $(".product-container").html("<span>Working.....</span>");
             },
-            success:function(result){
-                console.log(result);
-                $("body").html(result);
+            success:function(data){
+                var result = $('<div />').append(data).find('.product-container').html();     
+                $(".product-container").html(result);
             }
         });
 

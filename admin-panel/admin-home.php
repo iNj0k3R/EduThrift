@@ -137,7 +137,7 @@
                     </td>
                     <td>
                        
-                       <img src="../uploads/product-images/<?php echo explode(",", $account["image"])[0]; ?>" class="img-responsive img-thumbnail" width="150">
+                       <img src="../uploads/product-images/ <?php echo explode(",", $account["image"])[0]; ?>" class="img-responsive img-thumbnail" width="150">
                       
                     </td>
                     <td>
