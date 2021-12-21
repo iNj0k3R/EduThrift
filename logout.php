@@ -4,5 +4,5 @@ session_start();
 session_unset();
 session_destroy();
 
-header('location:registration.php');exit;
+header('location:Authentication/registration.php');exit;
 ?>

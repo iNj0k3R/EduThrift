@@ -1,3 +1,4 @@
+
 <?php
 require_once './helpers/connect_db.php';
 session_start();
@@ -15,48 +16,66 @@ if ($resultSet->num_rows == 0) {
   $error = "no products found";
 }
 
-//Filter Product type according to product type
+
 if (isset($_POST['type-request'])) {
-  $request = $_POST['type-request'];
-  $resultSet = $mysqli->query("SELECT product_id,name,price,PRODUCT.image,approval,city,state FROM  PRODUCT INNER JOIN ACCOUNT ON PRODUCT.seller_id=ACCOUNT.id where product_type='$request'");
-  if ($resultSet->num_rows == 0) {
-    $error = "no products found";
+  //$typeRequest = $_POST['type-request'];
+  //$priceRequest = $_POST['price-request'];
+  //$locationRequest = $_POST['location-request'];
+  //$radiusRequest = $_POST['radius-request'];
+  $conditions = array();
+  $sql="";
+  $query = "SELECT product_id,name,price,PRODUCT.image,approval,city,state FROM PRODUCT INNER JOIN ACCOUNT ON PRODUCT.seller_id=ACCOUNT.id";
+  if (!empty($_POST['type-request'])) {
+    $conditions[] = "product_type='{$_POST['type-request']}'";
   }
-  echo "";
-}
-//Filter Product type according to price
-if (isset($_POST['price-request'])) {
-  $request = $_POST['price-request'];
-  if($request=='Highest'){
-    $resultSet = $mysqli->query("SELECT product_id,name,price,PRODUCT.image,approval,city,state FROM  PRODUCT INNER JOIN ACCOUNT ON PRODUCT.seller_id=ACCOUNT.id ORDER BY price DESC");
+  if (!empty($_POST['location-request'])) {
+    if($_POST['location-request'] == 'city'){
+      $conditions[] = "city='{$account['city']}'";
+    }else{
+      $conditions[] = "state='{$account['state']}'";
+    }
   }
-  elseif($request=='Lowest'){
-    $resultSet = $mysqli->query("SELECT product_id,name,price,PRODUCT.image,approval,city,state FROM  PRODUCT INNER JOIN ACCOUNT ON PRODUCT.seller_id=ACCOUNT.id ORDER BY price ASC");
-  }
-  if ($resultSet->num_rows == 0) {
-    $error = "no products found";
-  }
-  echo "";
-}
-
-if (isset($_POST['location-request'])) {
-  $request = $_POST['location-request'];
-  if($request=='city'){
-    $resultSet = $mysqli->query("SELECT product_id,name,price,PRODUCT.image,approval,city,state FROM  PRODUCT INNER JOIN ACCOUNT ON PRODUCT.seller_id=ACCOUNT.id WHERE city='{$account['city']}'");
+  if (!empty($_POST['radius-request'])) {
+    $radiusRequest = $_POST['radius-request'];
+    $lat = $account['lat'];
+    $lon = $account['lon'];
+    $sql = "SELECT * FROM( SELECT product_id,name,price,PRODUCT.image,approval,city,state,
+                               (((acos(sin(($lat*pi()/180)) * sin((lat*pi()/180))+cos(($lat*pi()/180)) * cos((lat*pi()/180)) * cos((($lon - lon)*pi()/180))))*180/pi())*60*1.1515*1.609344) as distance 
+                                 FROM account INNER JOIN product ON account.id=product.seller_id) t WHERE distance*1.609 <= $radiusRequest";
+    if(count($conditions)>0){
+      $sql = "SELECT * FROM( SELECT product_id,name,price,PRODUCT.image,approval,city,state,
+      (((acos(sin(($lat*pi()/180)) * sin((lat*pi()/180))+cos(($lat*pi()/180)) * cos((lat*pi()/180)) * cos((($lon - lon)*pi()/180))))*180/pi())*60*1.1515*1.609344) as distance 
+        FROM account INNER JOIN product ON account.id=product.seller_id". " WHERE " . implode(' AND ', $conditions) .") t WHERE distance*1.609 <= $radiusRequest";
+    }
   } else{
-    $resultSet = $mysqli->query("SELECT product_id,name,price,PRODUCT.image,approval,city,state FROM  PRODUCT INNER JOIN ACCOUNT ON PRODUCT.seller_id=ACCOUNT.id WHERE state='{$account['state']}'");
+    $sql = $query;
+    if(count($conditions)>0){
+      $sql .= " WHERE " . implode(' AND ', $conditions);
+    }
   }
-}
 
-if (isset($_POST['radius-request'])) {
-  $request = $_POST['radius-request'];
-  $lat = $account['lat'];
-  $lon = $account['lon'];
-  $resultSet = $mysqli->query("SELECT * FROM( SELECT product_id,name,price,PRODUCT.image,approval,city,state,
-                              (((acos(sin(($lat*pi()/180)) * sin((lat*pi()/180))+cos(($lat*pi()/180)) * cos((lat*pi()/180)) * cos((($lon - lon)*pi()/180))))*180/pi())*60*1.1515*1.609344) as distance 
-                                FROM account INNER JOIN product ON account.id=product.seller_id) t WHERE distance*1.609 <= $request");
-                        //$lat and $lon are the latitude and longitude of the user's location. lat and lon are the columns of distances table consisting of locations of all products.
-} 
+  if(!empty($_POST['price-request'])){
+    if($_POST['price-request'] == 'Highest'){
+      $sql .= " ORDER BY price DESC";
+    }else{
+      $sql .= " ORDER BY price ASC";
+    }
+  }
+  // if(isset($radquery))
+  // {
+   
+  //   if(count($conditions)>0){
+  //     $sql .= " " . implode(' AND ', $conditions);
+  //   }
+  // }else{
+  //   $sql = $query;
+  //   if(count($conditions)>0){
+  //     $sql .= " WHERE " . implode(' AND ', $conditions);
+  //   }
+  // }
+  
+  $resultSet = $mysqli->query($sql);
+}
 
 ?>
 
@@ -89,7 +108,7 @@ if (isset($_POST['radius-request'])) {
       <li class="filter-2">
         <div class="select-style">
           <select name="fetchval" id="fetchval">
-            <option class="filter-3" value="" disabled="" selected="">Product Type</option>
+            <option class="filter-3" value="" selected="">Product Type</option>
             <option class="filter-3" value="stationery">Stationery</option>
             <option class="filter-3" value="furniture">Furniture</option>
             <option class="filter-3" value="Electronics">Electronics</option>
@@ -103,7 +122,7 @@ if (isset($_POST['radius-request'])) {
       <li class="filter-2">
         <div class="select-style">
           <select name="fetchval1" id="fetchval1">
-            <option class="filter-3" value="" disabled="" selected="">Price</option>
+            <option class="filter-3" value="" selected="">Price</option>
             <option class="filter-3" value="Highest">Highest to Lowest</option>
             <option class="filter-3" value="Lowest">Lowest to Highest</option>
           </select>
@@ -112,7 +131,7 @@ if (isset($_POST['radius-request'])) {
       <li class="filter-2">
         <div class="select-style">
           <select name="fetchval2" id="fetchval2">
-            <option class="filter-3" value="" disabled="" selected="">Location</option>
+            <option class="filter-3" value="" selected="">Location</option>
             <option class="filter-3" value="city">City</option>
             <option class="filter-3" value="state">State</option>
           </select>
@@ -121,7 +140,7 @@ if (isset($_POST['radius-request'])) {
       <li class="filter-2">
         <div class="select-style">
           <select name="fetchval3" id="fetchval3">
-            <option class="filter-3" value="" disabled="" selected="">Radius</option>
+            <option class="filter-3" value="" selected="">Radius</option>
             <option class="filter-3" value="5">5km</option>
             <option class="filter-3" value="15">15km</option>
             <option class="filter-3" value="50">50km</option>
@@ -165,81 +184,27 @@ if (isset($_POST['radius-request'])) {
   <br><br>
 
   <script type="text/javascript">
+    
 
-    $(document).ready(function() {              //on changing the value of select tag it will display an 
-      $("#fetchval").on('change', function() {
-        var value = $(this).val();
-
+    $(document).ready(function() {   
+         
+      //on changing the value of select tag it will display an 
+      $("#fetchval,#fetchval1,#fetchval2,#fetchval3").on('change', function() {
+        var value = $('#fetchval').val();
+        var value1 = $('#fetchval1').val();
+        var value2 = $('#fetchval2').val();
+        var value3 = $('#fetchval3').val();
+        
         $.ajax({
             url:"home.php",
             type:"POST",
-            data:'type-request='+ value,       
+            data:'type-request='+ value + '&price-request=' + value1 + '&location-request=' + value2 + '&radius-request=' +value3,        
             beforeSend:function(){
                 $(".product-container").html("<span>Working.....</span>");
             },
             success:function(data){
                 //console.log(result);
                 //$("body").html(result);
-                var result = $('<div />').append(data).find('.product-container').html();     
-                $(".product-container").html(result);
-            }
-        });
-
-      })
-    });
-
-    $(document).ready(function() {              //on changing the value of select tag it will display an 
-      $("#fetchval1").on('change', function() {
-        var value = $(this).val();
-
-        $.ajax({
-            url:"home.php",
-            type:"POST",
-            data:'price-request='+ value,       
-            beforeSend:function(){
-                $(".product-container").html("<span>Working.....</span>");
-            },
-            success:function(data){
-                var result = $('<div />').append(data).find('.product-container').html();     
-                $(".product-container").html(result);
-            }
-        });
-
-      })
-    });
-
-    $(document).ready(function() {              //on changing the value of select tag it will display an 
-      $("#fetchval2").on('change', function() {
-        var value = $(this).val();
-
-        $.ajax({
-            url:"home.php",
-            type:"POST",
-            data:'location-request='+ value,       
-            beforeSend:function(){
-                $(".product-container").html("<span>Working.....</span>");
-            },
-            success:function(data){
-                var result = $('<div />').append(data).find('.product-container').html();     
-                $(".product-container").html(result);
-            }
-        });
-
-      })
-    });
-
-    $(document).ready(function() {              //on changing the value of select tag it will display an 
-      $("#fetchval3").on('change', function() {
-        var value = $(this).val();
-
-        $.ajax ({
-            url:"home.php",
-            type:"POST",
-            data:'radius-request='+ value,       
-            beforeSend:function(){
-                $(".product-container").html("<span>Working.....</span>");
-            },
-            success:function(data){
                 var result = $('<div />').append(data).find('.product-container').html();     
                 $(".product-container").html(result);
             }

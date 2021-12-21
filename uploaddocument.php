@@ -97,7 +97,7 @@
                 <span class="option">Exam papers</span><br>
                 <input type="radio" name="doctype" value="answers">
                 <span class="option">Answers</span><br>
-                <input type="radio" name="doctype" value="presentation">
+                <input type="radio" name="doctype" value="presentations">
                 <span class="option">Presentation</span><br>
                 <input type="radio" name="doctype" value="researchpapers">
                 <span class="option">Research paper</span><br>

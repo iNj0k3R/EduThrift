@@ -130,6 +130,10 @@ if(isset($_POST['addr-submit'])){
     header("location:profile.php");exit;
 }
 
+
+if(isset($_POST['logout-button'])){
+  header('location:logout.php');exit;
+}
 $mysqli->close();
 ?>
 
@@ -344,7 +348,19 @@ $mysqli->close();
           font-style: normal;
           background: #000000;
           color: #fff;" type="submit" name="update-button" class="btn">Submit</button>
+
     </div>
+
+    <br>
+      <form action="profile.php" method="POST">
+          <button style="
+            width: 100px;
+            font-family: Raleway;
+            font-style: normal;
+            text-align:center;
+            background: #000000;
+            color: #fff;" type="submit" name="logout-button" class="btn">Sign out</button></a>
+      </form>
   </div>
 
 
