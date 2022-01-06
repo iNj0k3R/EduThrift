@@ -108,13 +108,13 @@ if(isset($_POST['submit-signup'])){
             </div>
             <div class="imgBx">
                 <h3>Share and use educational resources at a minimal cost</h3>
-                <img src="./images/signup.png" />
+                <img src="./images/EduThrift-logos_white.png" />
             </div>
         </div>
         <div class="user signupBx">
             <div class="imgBx">
                 <h3>Share and use educational resources at a minimal cost</h3>
-                <img src="./images/signup.png" />
+                <img src="./images/EduThrift-logos_white.png" />
             </div>
             <div class="formBx">
                 <form action="registration.php" method="POST">

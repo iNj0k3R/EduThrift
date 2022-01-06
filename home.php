@@ -112,7 +112,7 @@ if (isset($_POST['type-request'])) {
             <option class="filter-3" value="stationery">Stationery</option>
             <option class="filter-3" value="furniture">Furniture</option>
             <option class="filter-3" value="Electronics">Electronics</option>
-            <option class="filter-3" value="uniform">Uniform</option>
+            <option class="filter-3" value="uniformclothes">Uniform</option>
             <option class="filter-3" value="shoes">Shoes</option>
 
           </select>

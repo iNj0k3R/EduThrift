@@ -120,7 +120,7 @@
                         <p><?php echo $account['city'].",".$account['state']; ?></p>
                         <p>UID: <?php echo $account['id'];?></p>
                     </td>
-                    <td><img src="../uploads/product-images/s<?php echo explode(",", $account["image"])[0]; ?>" class="img-responsive img-thumbnail" width="150"></td>
+                    <td><img src="../uploads/product-images/<?php echo explode(",", $account["image"])[0]; ?>" class="img-responsive img-thumbnail" width="150"></td>
                 </tr>
                 <?php
                }

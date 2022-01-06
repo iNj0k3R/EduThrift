@@ -179,7 +179,7 @@ $mysqli->close();
                 <h1>Upload Profile ?</h1>
               </div>
 
-              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/256492/cXsiNryL.png" alt="Car">
+              <img src="https://image.freepik.com/free-vector/illustration-people-with-uploading-symbol_53876-26640.jpg" alt="Car">
 
               <div class="subscribe">
                 <h1>Upload pic</h1>
@@ -245,7 +245,7 @@ $mysqli->close();
                         <h1>Change E-mail?</h1>
                       </div>
 
-                      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/256492/cXsiNryL.png" alt="Car">
+                      <img src="https://image.freepik.com/free-vector/newsletter_1325-2355.jpg" alt="Car">
 
                       <div class="subscribe">
                         <h1>Enter New E-mail</h1>
@@ -293,7 +293,7 @@ $mysqli->close();
                         <h1>Change Password?</h1>
                       </div>
 
-                      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/256492/cXsiNryL.png" alt="Car">
+                      <img src="https://image.freepik.com/free-vector/reset-password-concept-illustration_114360-7866.jpg" alt="Car">
 
                       <div class="subscribe">
                         <h1>Enter Password Details</h1>

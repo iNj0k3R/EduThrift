@@ -250,7 +250,7 @@ if(isset($_POST['download-submit'])){
                                             <div class="col-md-2">
                                                 <div class="bundle_left_col">
                                                     <div class="quick-view-main">
-                                                        <img src="./images/product.png" alt="" class="onload-img" width="86px" height="138px">
+                                                        <img src="https://image.flaticon.com/icons/png/512/1215/1215867.png" alt="" class="onload-img" width="86px" height="138px">
                                                         <!-- <a href="#" class="quickview" data-toggle="modal" data-url="">Download</a> -->
                                                     </div>
                                                 </div>
